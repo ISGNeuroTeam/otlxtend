@@ -20,15 +20,16 @@ import ot.dispatcher.sdk.core.extensions.StringExt._
  */
 class OTLUnpivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils) {
   override def transform(_df: DataFrame): DataFrame = {
-    returns.flatFields.reverse match {
+    val fieldsInQuery = returns.flatFields.map(_.stripBackticks)
+    val actualCols = _df.columns.filterNot(fieldsInQuery.contains)
+    fieldsInQuery.reverse match {
       case value :: group :: fixed =>
-        val cols = _df.columns.filterNot(fixed.map(_.stripBackticks).contains)
-        cols.foldLeft(_df) {
+        actualCols.foldLeft(_df) {
           (accum, colname) => {
             accum.withColumn(colname, expr(s"""array("${colname}", ${colname})"""))
           }
         }
-          .withColumn("arr", expr(s"""array(${cols.mkString(", ")})"""))
+          .withColumn("arr", expr(s"""array(${actualCols.mkString(", ")})"""))
           .select("arr", fixed: _*)
           .withColumn("arr", explode(col("arr")))
           .withColumn(group.strip("\"").stripBackticks, col("arr").getItem(0))
