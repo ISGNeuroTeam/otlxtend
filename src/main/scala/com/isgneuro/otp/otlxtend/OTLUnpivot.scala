@@ -23,9 +23,6 @@ class OTLUnpivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(q
     returns.flatFields.reverse match {
       case value :: group :: fixed =>
         val cols = _df.columns.filterNot(fixed.map(_.stripBackticks).contains)
-        print(value, group)
-        fixed.foreach(println)
-        cols.foreach(println)
         cols.foldLeft(_df) {
           (accum, colname) => {
             accum.withColumn(colname, expr(s"""array("${colname}", ${colname})"""))
