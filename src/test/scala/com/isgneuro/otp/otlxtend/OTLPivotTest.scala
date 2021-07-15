@@ -16,7 +16,7 @@ class OTLPivotTest extends CommandTest {
 
   val dataset = """[{}]"""
 
-  test("OTLUnpivot should pivot table with multiple columns fixed") {
+  test("OTLPivot should pivot table with multiple columns fixed") {
     val input = Seq((1, "a", "m1", 10, 1),
       (1, "a", "m2", 11, 2),
       (1, "a", "m3", 12, 2),
@@ -46,7 +46,7 @@ class OTLPivotTest extends CommandTest {
     assert(actual.except(expected).count() === 0)
   }
 
-  test("OTLUnpivot should add fake column if only two columns specified") {
+  test("OTLPivot should add fake column if only two columns specified") {
     val input = Seq((1, "a", "m1", 10, 1),
       (1, "a", "m2", 11, 2),
       (1, "a", "m3", 12, 2),
