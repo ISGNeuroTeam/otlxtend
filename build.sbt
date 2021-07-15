@@ -1,9 +1,9 @@
-name := "AdditionalCommandsOTPlugin"
+name := "OTL Extend"
 
-version := "0.3"
+version := "0.4"
 
 scalaVersion := "2.11.12"
 
 resolvers += Resolver.jcenterRepo
 
-libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.11" % "0.1.12"  % Compile
+libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.11" % "1.1.1"  % Compile

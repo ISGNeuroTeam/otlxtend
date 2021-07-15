@@ -15,6 +15,12 @@ SBT 1.2.7
 
 repartition
 coalesce
+superjoin
+pivot
+assert
+latest
+split
+unpivot
  
 ## Deployment
 
@@ -35,3 +41,4 @@ Git.
 ## Authors
  
 Sergey Ermilov (sermilov@ot.ru)
+Nikolay Ryabykh (nryabykh@isgneuro.com)
