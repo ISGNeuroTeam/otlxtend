@@ -1,4 +1,4 @@
-package ot.dispatcher.plugins.additionalcommands.commands
+package com.isgneuro.otp.otlxtend
 
 import java.io.File
 
@@ -11,7 +11,7 @@ import scala.util.{Failure, Success, Try}
  * @param sq [[SimpleQuery]] search query object.
  * @author Sergey Ermilov (sermilov@ot.ru)
  */
-class Repartition(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, utils) {
+class Coalesce(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, utils) {
   import utils._
   val requiredKeywords: Set[String] = Set("num")
 
@@ -26,6 +26,6 @@ class Repartition(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq,
       case Success(x) => x
       case Failure(_) => sendError("The value of parameter 'num' should be of int type")
     }
-   _df.repartition(num)
+   _df.coalesce(num)
   }
 }

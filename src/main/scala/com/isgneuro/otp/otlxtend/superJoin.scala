@@ -1,4 +1,4 @@
-package ot.dispatcher.plugins.additionalcommands.commands
+package com.isgneuro.otp.otlxtend
 
 import ot.dispatcher.sdk.core.SimpleQuery
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
