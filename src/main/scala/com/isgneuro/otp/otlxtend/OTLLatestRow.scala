@@ -7,6 +7,7 @@ import ot.dispatcher.sdk.core.{Positional, SimpleQuery}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
 class OTLLatestRow(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set("by")) {
+  // Extract keywords and positional args
   private val timeCol = getKeyword("_time").getOrElse("_time")
   private val engine = getKeyword("engine").getOrElse("join")  // 'window' performs bad if no partitions specified
   private val byCols = positionalsMap.get("by") match {
@@ -14,14 +15,12 @@ class OTLLatestRow(query: SimpleQuery, utils: PluginUtils) extends PluginCommand
     case _ => List(col("__internal__"))
   }
 
-  override def transform(_df: DataFrame): DataFrame = {
-    if (engine == "join")
-      joinWithMaxTime(_df)
-    else if (engine == "window")
-      windowWithMaxTime(_df)
-    else
-      _df
-  }
+  // Transformation elements
+  private val transformMap: Map[String, DataFrame => DataFrame] = Map(
+    "join" -> joinWithMaxTime,
+    "window" -> windowWithMaxTime
+  )
+  private def identityDF(_df: DataFrame): DataFrame = _df
 
   private def joinWithMaxTime(df: DataFrame): DataFrame = {
     val dfExtraCols = df.withColumn("__internal__", lit(0))
@@ -37,5 +36,10 @@ class OTLLatestRow(query: SimpleQuery, utils: PluginUtils) extends PluginCommand
       .filter(s""" ${timeCol} == __max__ """)
       .drop("__max__")
   }
-}
 
+  override def transform(_df: DataFrame): DataFrame = {
+    _df.transform(
+      transformMap.getOrElse(engine, identityDF)
+    )
+  }
+}
