@@ -1,4 +1,4 @@
-name := "OTL Extend"
+name := "OTLExtend"
 
 version := "0.4.2"
 

@@ -4,6 +4,9 @@ project/
 *.class
 *.log
 .bsp/
+build/
+*.tar.gz
+*.tgz
 
 # sbt specific
 .cache/

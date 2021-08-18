@@ -1,0 +1,6 @@
+loglevel = "/opt/otp/SuperDispatcher/plugins/ExternalDataOTPlugin/loglevel.properties"
+
+storage {
+  fs = "file:/"
+  path = "///opt/otp/external_data/"
+}

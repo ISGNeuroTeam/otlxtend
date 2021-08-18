@@ -1,6 +1,6 @@
 # OT Platform. Additional commands for dataframe. OT plugin.
 
-Additional commands for transorming dataframe from **Spark Driver App**.
+Additional OTL commands for transforming dataframe
 
 ## Getting Started
 
@@ -13,14 +13,17 @@ SBT 1.2.7
 
 ### Command List
 
-repartition
-coalesce
-superjoin
-pivot
 assert
+coalesce
+dropna
 latest
+latestrow
+pivot
+repartition
 split
+superjoin
 unpivot
+REM | ___
  
 ## Deployment
 
