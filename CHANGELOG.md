@@ -1,3 +1,9 @@
+## [Unreleased - 2021.08.18]
+
+### Added
+
+- command REM for comments (alias: ___)
+
 ## [0.4.2 - 2021.07.21]
 
 ### Added
