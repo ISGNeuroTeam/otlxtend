@@ -22,9 +22,6 @@ class OTLLatestTest extends CommandTest {
     val expected = Seq((9, 8)).toDF("mod2", "mod3")
     val query = "mod2, mod3"
     val actual = new OTLLatest(SimpleQuery(query), utils).transform(source)
-    source.show()
-    expected.show()
-    actual.show()
     assert(actual.except(expected).count() == 0)
   }
 
@@ -36,9 +33,6 @@ class OTLLatestTest extends CommandTest {
     val expected = Seq(("big", 9, 8), ("small", 3, 4)).toDF("cat", "mod2", "mod3")
     val query = "mod2, mod3 by cat"
     val actual = new OTLLatest(SimpleQuery(query), utils).transform(source)
-    source.show()
-    expected.show()
-    actual.show()
     assert(actual.except(expected).count() == 0)
   }
 }

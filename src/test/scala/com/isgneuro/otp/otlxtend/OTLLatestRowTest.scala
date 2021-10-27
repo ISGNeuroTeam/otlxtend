@@ -27,7 +27,6 @@ class OTLLatestRowTest extends CommandTest {
     val expected = Seq((9, 1, 0)).toDF("_time", "mod2", "mod3")
     val query = ""
     val actual = new OTLLatestRow(SimpleQuery(query), utils).transform(source)
-    show(source, expected, actual)
     assert(actual.except(expected).count() == 0)
   }
 
@@ -41,7 +40,6 @@ class OTLLatestRowTest extends CommandTest {
       (9, 1, 0)).toDF("_time", "mod2", "mod3")
     val query = "by mod2"
     val actual = new OTLLatestRow(SimpleQuery(query), utils).transform(source)
-    show(source, expected, actual)
     assert(actual.except(expected).count() == 0)
   }
 
@@ -53,7 +51,6 @@ class OTLLatestRowTest extends CommandTest {
       (9, 1, 0)).toDF("_time", "mod2", "mod3")
     val query = "_time=id"
     val actual = new OTLLatestRow(SimpleQuery(query), utils).transform(source)
-    show(source, expected, actual)
     assert(actual.except(expected).count() == 0)
   }
 
@@ -65,7 +62,6 @@ class OTLLatestRowTest extends CommandTest {
       (9, 1, 0)).toDF("_time", "mod2", "mod3")
     val query = "_time=id engine=window"
     val actual = new OTLLatestRow(SimpleQuery(query), utils).transform(source)
-    show(source, expected, actual)
     assert(actual.except(expected).count() == 0)
   }
 
@@ -79,7 +75,6 @@ class OTLLatestRowTest extends CommandTest {
       (9, 1, 0)).toDF("_time", "mod2", "mod3")
     val query = "engine=window by mod2"
     val actual = new OTLLatestRow(SimpleQuery(query), utils).transform(source)
-    show(source, expected, actual)
     assert(actual.except(expected).count() == 0)
   }
 }

@@ -37,12 +37,9 @@ class OTLPivotTest extends CommandTest {
       .orderBy(col("time"), col("well"))
       .select("time", "well", "m1", "m2", "m3")
     val query = "time, well, metric, value"
-    val actual = new OTLUnpivot(SimpleQuery(query), utils).transform(input)
+    val actual = new OTLPivot(SimpleQuery(query), utils).transform(input)
       .orderBy(col("time"), col("well"))
       .select("time", "well", "m1", "m2", "m3")
-    input.show()
-    actual.show()
-    expected.show()
     assert(actual.except(expected).count() === 0)
   }
 
@@ -63,11 +60,8 @@ class OTLPivotTest extends CommandTest {
     val expected = Seq((10, 11, 12)).toDF("m1", "m2", "m3")
       .select("m1", "m2", "m3")
     val query = "metric, value"
-    val actual = new OTLUnpivot(SimpleQuery(query), utils).transform(input)
+    val actual = new OTLPivot(SimpleQuery(query), utils).transform(input)
       .select("m1", "m2", "m3")
-    input.show()
-    actual.show()
-    expected.show()
     assert(actual.except(expected).count() === 0)
   }
 }

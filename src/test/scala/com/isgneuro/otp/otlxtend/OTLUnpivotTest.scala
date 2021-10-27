@@ -40,9 +40,6 @@ class OTLUnpivotTest extends CommandTest {
     val actual = new OTLUnpivot(SimpleQuery(query), utils).transform(input)
       .orderBy(col("time"), col("well"))
       .select("time", "well", "metric", "value")
-    input.show()
-    actual.show()
-    expected.show()
     assert(actual.except(expected).count() === 0)
   }
 }

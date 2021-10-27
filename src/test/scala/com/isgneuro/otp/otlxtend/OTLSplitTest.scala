@@ -33,8 +33,6 @@ class OTLSplitTest extends CommandTest{
     ).toDF("id", "text", "col1", "col2", "col3")
     val query = """text cols=col1,col2,col3 sep=-"""
     val actual = new OTLSplit(SimpleQuery(query), utils).transform(source)
-    actual.show()
-    expected.show()
     assert(actual.except(expected).count() === 0)
   }
 }
