@@ -3,7 +3,7 @@ package com.isgneuro.otp.otlxtend
 import org.apache.spark.graphx._
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{array, col, explode, typedLit}
+import org.apache.spark.sql.functions.{col, typedLit}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 import ot.dispatcher.sdk.core.SimpleQuery
 
@@ -30,10 +30,10 @@ class ConnectedComponents(query: SimpleQuery, utils: PluginUtils)
 
     val graph = Graph.fromEdges(edges, "fake vertex prop")
     val cc = graph.connectedComponents()
-    val ccMap = typedLit(
-      cc.vertices.collect().toMap
-    )
 
-    _df.withColumn("cc", ccMap(col(srcCol)))
+    _df.join(
+      _df.sparkSession.createDataFrame(cc.vertices).toDF(srcCol, "cc"),
+      usingColumn = srcCol
+    )
   }
 }
