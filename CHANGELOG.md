@@ -3,6 +3,7 @@
 ### Added
 
 - command REM for comments (alias: ___)
+- command `cc` for computing the connected components of each vertex of graph
 
 ## [0.4.2 - 2021.07.21]
 
