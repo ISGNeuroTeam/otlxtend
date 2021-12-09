@@ -3,7 +3,7 @@ package com.isgneuro.otp.otlxtend
 import org.apache.spark.graphx._
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{col, typedLit}
+import org.apache.spark.sql.functions.col
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 import ot.dispatcher.sdk.core.SimpleQuery
 
