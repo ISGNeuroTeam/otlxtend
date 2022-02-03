@@ -11,17 +11,24 @@ class OTLPivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(que
   private val categories: Option[Array[String]] =
     getKeyword("groups").map(_.replaceAllLiterally(" ", "").split(","))
 
-  val params: PivotParams = returns.flatFields.reverse match {
-    case values :: groups :: fixed => PivotParams(values, groups, Some(fixed.reverse))
-    case values :: groups :: Nil => PivotParams(values, groups, None)
-    case _ => sendError("You should specify at least values column and category column using 'pivot'")
-  }
+  val params: PivotParams =
+    returns
+      .flatFields
+      .reverse match {
+      case values :: groups :: fixed => PivotParams(values, groups, Some(fixed.reverse))
+      case values :: groups :: Nil => PivotParams(values, groups, None)
+      case _ => sendError("You should specify at least values column and category column using 'pivot'")
+    }
 
   private def group(df: DataFrame): RelationalGroupedDataset =
     params.fixedCols match {
-      case Some(cols) => df.groupBy(cols.map(col): _*)
-      case _ => df.withColumn("__id__", lit(1))
-        .groupBy("__id__")
+      case Some(cols) =>
+        df.groupBy(cols.map(col): _*)
+
+      case _ =>
+        df
+          .withColumn("__id__", lit(1))
+          .groupBy("__id__")
     }
 
   private def pivot(rgd: RelationalGroupedDataset): RelationalGroupedDataset =

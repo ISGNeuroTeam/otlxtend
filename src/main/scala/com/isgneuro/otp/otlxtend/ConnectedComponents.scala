@@ -14,22 +14,22 @@ class ConnectedComponents(query: SimpleQuery, utils: PluginUtils)
   private val dstCol: String = getKeyword("dst").getOrElse("dst")
 
   override def transform(_df: DataFrame): DataFrame = {
-
     val edges: RDD[Edge[String]] = _df
       .select(
         col(srcCol).cast("long"),
-        col(dstCol).cast("long"))
+        col(dstCol).cast("long")
+      )
       .rdd
-      .map(
-        row => Edge(
+      .map { row =>
+        Edge(
           row.getAs[Long](0),
           row.getAs[Long](1),
           "fake property"
         )
-      )
+      }
 
-    val graph = Graph.fromEdges(edges, "fake vertex prop")
-    val cc = graph.connectedComponents()
+    val graph: Graph[String, String] = Graph.fromEdges(edges, "fake vertex prop")
+    val cc: Graph[VertexId, String] = graph.connectedComponents()
 
     _df.join(
       _df.sparkSession.createDataFrame(cc.vertices).toDF(srcCol, "cc"),

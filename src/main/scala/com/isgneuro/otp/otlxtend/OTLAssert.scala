@@ -8,6 +8,7 @@ import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 import scala.util.{Failure, Success, Try}
 
 class OTLAssert (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set.empty[String]) {
+  log.info(s"args: $args")
 
   def transform(_df: DataFrame): DataFrame = {
     Try(_df.filter(expr(args.trim))) match {
