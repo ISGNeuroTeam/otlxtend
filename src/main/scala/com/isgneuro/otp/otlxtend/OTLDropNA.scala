@@ -22,7 +22,6 @@ class OTLDropNA(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(qu
   val HOW_DEFAULT: String = "any"
 
   override def transform(_df: DataFrame): DataFrame = {
-
     val subset: Array[String] =
       getKeyword("subset")
         .map(c => c.split(",").map(_.trim))
@@ -33,11 +32,12 @@ class OTLDropNA(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(qu
       case _ =>
     }
 
-    val how: String = getKeyword("how").getOrElse(HOW_DEFAULT) match {
-      case "any" => "any"
-      case "all" => "all"
-      case _ => sendError("Incorrect value of 'how' keyword")
-    }
+    val how: String =
+      getKeyword("how").getOrElse(HOW_DEFAULT) match {
+        case "any" => "any"
+        case "all" => "all"
+        case _ => sendError("Incorrect value of 'how' keyword")
+      }
 
     _df.na.drop(how, subset)
   }

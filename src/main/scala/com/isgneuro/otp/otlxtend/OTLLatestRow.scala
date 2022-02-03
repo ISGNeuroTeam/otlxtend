@@ -2,7 +2,7 @@ package com.isgneuro.otp.otlxtend
 
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
-import org.apache.spark.sql.functions.{col, last, lit, max}
+import org.apache.spark.sql.functions.{col, lit, max}
 import ot.dispatcher.sdk.core.{Positional, SimpleQuery}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
@@ -48,9 +48,6 @@ class OTLLatestRow(query: SimpleQuery, utils: PluginUtils) extends PluginCommand
       .drop("__max__")
   }
 
-  override def transform(_df: DataFrame): DataFrame = {
-    _df.transform(
-      transformMap.getOrElse(engine, identityDF)
-    )
-  }
+  override def transform(_df: DataFrame): DataFrame =
+    _df.transform(transformMap.getOrElse(engine, identityDF))
 }

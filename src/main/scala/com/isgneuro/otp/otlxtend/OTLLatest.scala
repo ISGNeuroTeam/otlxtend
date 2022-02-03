@@ -7,13 +7,12 @@ import ot.dispatcher.sdk.core.{Positional, SimpleQuery}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
 class OTLLatest (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set("by")) {
+  val fields: List[String] =
+    returns
+      .flatFields
+      .map(c => c.stripBackticks)
 
   def transform(_df: DataFrame): DataFrame = {
-    val fields: List[String] =
-      returns
-        .flatFields
-        .map(c => c.stripBackticks)
-
     val dfGrouped: RelationalGroupedDataset =
       positionalsMap.get("by") match {
         case Some(Positional("by", posHead :: posTail)) =>

@@ -4,7 +4,6 @@ import ot.dispatcher.sdk.core.SimpleQuery
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-import scala.collection.immutable
 import scala.util.{Failure, Success, Try}
 
 class SuperJoin(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, utils) {

@@ -12,9 +12,7 @@ class OTLPivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(que
     getKeyword("groups").map(_.replaceAllLiterally(" ", "").split(","))
 
   val params: PivotParams =
-    returns
-      .flatFields
-      .reverse match {
+    returns.flatFields.reverse match {
       case values :: groups :: fixed => PivotParams(values, groups, Some(fixed.reverse))
       case values :: groups :: Nil => PivotParams(values, groups, None)
       case _ => sendError("You should specify at least values column and category column using 'pivot'")

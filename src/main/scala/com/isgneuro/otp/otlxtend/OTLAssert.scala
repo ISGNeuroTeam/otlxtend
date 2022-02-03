@@ -11,7 +11,7 @@ class OTLAssert (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(q
   log.info(s"args: $args")
 
   def transform(_df: DataFrame): DataFrame = {
-    Try(_df.filter(expr(args.trim))) match {
+    Try { _df.filter(expr(args.trim)) } match {
       case Success(dfFiltered) if _df.count() == dfFiltered.count() => _df
       case Success(_) => sendError(s"Assertion rule ${args.trim} failed")
       case Failure(msg) => sendError(s"Failed to parse assert expression $args. Exception message: $msg")

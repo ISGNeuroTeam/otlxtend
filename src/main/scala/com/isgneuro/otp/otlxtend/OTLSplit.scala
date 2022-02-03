@@ -7,14 +7,11 @@ import ot.dispatcher.sdk.core.extensions.StringExt._
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
 class OTLSplit (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set.empty[String]) {
-  def transform(_df: DataFrame): DataFrame = {
-    val cols: Option[Array[String]] = getKeyword("cols").map(_.split(",").map(_.trim))
-    val sep: String = getKeyword("sep").getOrElse("#")
+  val cols: Option[Array[String]] = getKeyword("cols").map(_.split(",").map(_.trim))
+  val sep: String = getKeyword("sep").getOrElse("#")
 
-    returns
-      .flatFields
-      .headOption
-      .map(_.stripBackticks) match {
+  def transform(_df: DataFrame): DataFrame = {
+    returns.flatFields.headOption.map(_.stripBackticks) match {
       case Some(colname) =>
         val tempDf: DataFrame = _df.withColumn("temp", split(col(colname), sep))
 
