@@ -18,6 +18,8 @@ class Coalesce(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, ut
       case _ => sendError("You should specify the 'num' parameter as positive integer")
     }
 
+  log.info(s"numPartitions: $numPartitions")
+
   def transform(_df: DataFrame): DataFrame =
    _df.coalesce(numPartitions)
 }

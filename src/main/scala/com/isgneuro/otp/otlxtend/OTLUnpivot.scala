@@ -24,11 +24,15 @@ class OTLUnpivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(q
       .flatFields
       .map(_.stripBackticks)
 
+  log.info(s"fieldsInQuery: $fieldsInQuery")
+
   override def transform(_df: DataFrame): DataFrame = {
     val actualCols: Array[String] =
       _df
         .columns
         .filterNot(fieldsInQuery.contains)
+
+    log.info(s"actualCols: ${actualCols.mkString("Array(", ", ", ")")}")
 
     fieldsInQuery.reverse match {
       case value :: group :: fixed =>

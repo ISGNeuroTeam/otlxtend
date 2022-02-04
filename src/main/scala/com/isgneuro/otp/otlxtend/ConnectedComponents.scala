@@ -11,7 +11,10 @@ class ConnectedComponents(query: SimpleQuery, utils: PluginUtils)
   extends PluginCommand(query, utils, Set.empty[String]) {
 
   private val srcCol: String = getKeyword("src").getOrElse("src")
+  log.info(s"srcCol: $srcCol")
+
   private val dstCol: String = getKeyword("dst").getOrElse("dst")
+  log.info(s"dstCol: $srcCol")
 
   override def transform(_df: DataFrame): DataFrame = {
     val edges: RDD[Edge[String]] =

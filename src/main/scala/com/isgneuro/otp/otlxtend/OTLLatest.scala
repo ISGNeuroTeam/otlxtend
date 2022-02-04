@@ -3,7 +3,7 @@ package com.isgneuro.otp.otlxtend
 import org.apache.spark.sql.{DataFrame, RelationalGroupedDataset}
 import org.apache.spark.sql.functions.{last, lit}
 import ot.dispatcher.sdk.core.extensions.StringExt._
-import ot.dispatcher.sdk.core.{Positional, SimpleQuery}
+import ot.dispatcher.sdk.core.{Field, Positional, SimpleQuery}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
 class OTLLatest (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set("by")) {
@@ -12,9 +12,14 @@ class OTLLatest (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(q
       .flatFields
       .map(c => c.stripBackticks)
 
+  log.info(s"fields: $fields")
+
   def transform(_df: DataFrame): DataFrame = {
+    val posMapBy: Option[Field] = positionalsMap.get("by")
+    log.info(s"posMapBy: $posMapBy")
+
     val dfGrouped: RelationalGroupedDataset =
-      positionalsMap.get("by") match {
+      posMapBy match {
         case Some(Positional("by", posHead :: posTail)) =>
           _df.groupBy(posHead, posTail: _*)
 
@@ -24,7 +29,7 @@ class OTLLatest (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(q
             .groupBy("__internal__")
       }
 
-    fields.map(col => last(col, ignoreNulls=true).alias(col)) match {
+    fields.map(col => last(col, ignoreNulls = true).alias(col)) match {
       case h :: t =>
         dfGrouped
           .agg(h, t: _*)

@@ -32,12 +32,16 @@ class OTLDropNA(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(qu
       case _ =>
     }
 
+    log.info(s"subset: ${subset.mkString("Array(", ", ", ")")}")
+
     val how: String =
       getKeyword("how").getOrElse(HOW_DEFAULT) match {
         case "any" => "any"
         case "all" => "all"
         case _ => sendError("Incorrect value of 'how' keyword")
       }
+
+    log.info(s"how: $how")
 
     _df.na.drop(how, subset)
   }

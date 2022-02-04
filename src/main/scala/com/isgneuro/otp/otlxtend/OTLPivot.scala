@@ -11,15 +11,19 @@ class OTLPivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(que
   private val categories: Option[Array[String]] =
     getKeyword("groups").map(_.replaceAllLiterally(" ", "").split(","))
 
-  val params: PivotParams =
+  log.info(s"categories: ${categories.map(_.mkString("Array(", ", ", ")"))}")
+
+  val pivotParams: PivotParams =
     returns.flatFields.reverse match {
       case values :: groups :: fixed => PivotParams(values, groups, Some(fixed.reverse))
       case values :: groups :: Nil => PivotParams(values, groups, None)
       case _ => sendError("You should specify at least values column and category column using 'pivot'")
     }
 
+  log.info(s"pivotParams: $pivotParams")
+
   private def group(df: DataFrame): RelationalGroupedDataset =
-    params.fixedCols match {
+    pivotParams.fixedCols match {
       case Some(cols) =>
         df.groupBy(cols.map(col): _*)
 
@@ -31,12 +35,12 @@ class OTLPivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(que
 
   private def pivot(rgd: RelationalGroupedDataset): RelationalGroupedDataset =
     categories match {
-      case Some(cats) => rgd.pivot(params.categoriesCol, cats)
-      case _ => rgd.pivot(params.categoriesCol)
+      case Some(cats) => rgd.pivot(pivotParams.categoriesCol, cats)
+      case _ => rgd.pivot(pivotParams.categoriesCol)
     }
 
   private def aggregate(rgd: RelationalGroupedDataset): DataFrame =
-    rgd.agg(first(params.valuesCol))
+    rgd.agg(first(pivotParams.valuesCol))
 
   private def dropIdCol(df: DataFrame): DataFrame =
     if (df.columns.contains("__id__")) df.drop("__id__") else df

@@ -3,18 +3,26 @@ package com.isgneuro.otp.otlxtend
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
 import org.apache.spark.sql.functions.{col, lit, max}
-import ot.dispatcher.sdk.core.{Positional, SimpleQuery}
+import ot.dispatcher.sdk.core.{Field, Positional, SimpleQuery}
 import ot.dispatcher.sdk.{PluginCommand, PluginUtils}
 
 class OTLLatestRow(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set("by")) {
   // Extract keywords and positional args
   private val timeCol: String = getKeyword("_time").getOrElse("_time")
-  private val engine: String = getKeyword("engine").getOrElse("join")  // 'window' performs bad if no partitions specified
+  log.info(s"timeCol: $timeCol")
 
-  private val byCols: List[Column] = positionalsMap.get("by") match {
+  private val engine: String = getKeyword("engine").getOrElse("join")  // 'window' performs bad if no partitions specified
+  log.info(s"engine: $engine")
+
+  val posMapBy: Option[Field] = positionalsMap.get("by")
+  log.info(s"posMapBy: $posMapBy")
+
+  private val byCols: List[Column] = posMapBy match {
     case Some(Positional("by", list)) => list.map(col)
     case _ => List(col("__internal__"))
   }
+
+  log.info(s"byCols: $byCols")
 
   // Transformation elements
   private val transformMap: Map[String, DataFrame => DataFrame] =

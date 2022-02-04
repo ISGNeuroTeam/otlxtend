@@ -14,20 +14,28 @@ class SuperJoin(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, u
     case Failure(_) => sendError("The value of parameter 'type' should be specified")
   }
 
+  log.info(s"joinType: $joinType")
+
   val path: String = Try(getKeyword("path").get) match {
     case Success(x) => x
     case Failure(_) => sendError("The value of parameter 'path' should be specified")
   }
+
+  log.info(s"path: $path")
 
   val format: String = Try(getKeyword("format").get) match {
     case Success(x) => x
     case Failure(_) => sendError("The value of parameter 'path' should be specified")
   }
 
+  log.info(s"format: $format")
+
   val joinOn: List[String] =
     returns
       .flatFields
       .map(_.stripPrefix("`").stripSuffix("`"))
+
+  log.info(s"joinOn: $joinOn")
 
    def transform(_df: DataFrame): DataFrame = {
      val sparkSession: SparkSession = SparkSession.builder().getOrCreate()
