@@ -61,6 +61,8 @@ build: package
 	cp README.md build/$(PROJECT_NAME)/
 	cp CHANGELOG.md build/$(PROJECT_NAME)/
 	cp LICENSE.md build/$(PROJECT_NAME)/
+	cp docs/plugin.conf.example build/$(PROJECT_NAME)/
+	cp docs/loglevel.properties.example build/$(PROJECT_NAME)/
 
 clean:
 	# required section
