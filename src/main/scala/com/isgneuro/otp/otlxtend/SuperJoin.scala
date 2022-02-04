@@ -25,7 +25,7 @@ class SuperJoin(sq: SimpleQuery, utils: PluginUtils) extends PluginCommand(sq, u
 
   val format: String = Try(getKeyword("format").get) match {
     case Success(x) => x
-    case Failure(_) => sendError("The value of parameter 'path' should be specified")
+    case Failure(_) => sendError("The value of parameter 'format' should be specified")
   }
 
   log.info(s"format: $format")
