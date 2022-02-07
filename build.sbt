@@ -1,6 +1,6 @@
-name := "OTLExtend"
+name := "otlxtend"
 
-version := "0.4.5"
+version := "0.4.6"
 
 scalaVersion := "2.11.12"
 
