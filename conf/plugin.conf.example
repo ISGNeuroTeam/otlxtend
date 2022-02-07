@@ -1,0 +1,2 @@
+pluginName = "otlxtend"
+loglevel = "/opt/otp/SuperDispatcher/plugins/otlxtend/loglevel.properties"

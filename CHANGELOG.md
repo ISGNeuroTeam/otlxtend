@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.6 - 2022.02.07]
+### Fixed
+- Project name.
+
 ## [0.4.5 - 2022.02.07]
 ### Changed
 - Refactoring.
