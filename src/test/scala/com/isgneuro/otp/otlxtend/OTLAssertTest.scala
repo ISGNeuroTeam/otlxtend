@@ -45,7 +45,7 @@ class OTLAssertTest extends CommandTest {
       new OTLAssert(SimpleQuery(query), utils).transform(sourceDf)
     }
 
-    assert(exception.getMessage.startsWith("Assertion rule")&& exception.getMessage.endsWith("failed"))
+    assert(exception.getMessage.startsWith("Assertion rule") && exception.getMessage.endsWith("failed"))
   }
 
 }

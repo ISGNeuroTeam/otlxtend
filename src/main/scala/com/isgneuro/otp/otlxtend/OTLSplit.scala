@@ -14,12 +14,6 @@ class OTLSplit (query: SimpleQuery, utils: PluginUtils) extends PluginCommand(qu
   log.info(s"sep: $sep")
 
   def transform(_df: DataFrame): DataFrame = {
-    val xz =
-      returns
-        .flatFields
-        .headOption
-        .map(_.stripBackticks)
-
     returns.flatFields.headOption.map(_.stripBackticks) match {
       case Some(colname) =>
         val tempDf: DataFrame = _df.withColumn("temp", split(col(colname), sep))

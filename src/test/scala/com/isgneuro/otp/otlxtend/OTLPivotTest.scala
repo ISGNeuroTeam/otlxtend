@@ -84,7 +84,7 @@ class OTLPivotTest extends CommandTest {
       (2, "b", 200, 201, 202)).toDF("time", "well", "m1", "m2", "m3")
       .orderBy(col("time"), col("well"))
       .select("time", "well", "m1", "m2", "m3")
-    val query = "groups=m1,m2,m3 time, well, metric, value"
+    val query = "time, well, metric, value groups=m1,m2,m3"
     val actual = new OTLPivot(SimpleQuery(query), utils).transform(input)
       .orderBy(col("time"), col("well"))
       .select("time", "well", "m1", "m2", "m3")
