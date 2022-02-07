@@ -19,24 +19,29 @@ import ot.dispatcher.sdk.core.SimpleQuery
  * @param utils
  */
 class OTLDropNA(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils, Set.empty) {
-  val HOW_DEFAULT = "any"
+  val HOW_DEFAULT: String = "any"
 
   override def transform(_df: DataFrame): DataFrame = {
-
-    val subset: Array[String] = getKeyword("subset").map(
-      c => c.split(",").map(_.trim)
-    ).getOrElse(_df.columns)
+    val subset: Array[String] =
+      getKeyword("subset")
+        .map(c => c.split(",").map(_.trim))
+        .getOrElse(_df.columns)
 
     subset.diff(_df.columns) match {
       case cols if cols.nonEmpty => sendError(s"""Columns ${cols.mkString(", ")} not found in dataframe""")
       case _ =>
     }
 
-    val how: String = getKeyword("how").getOrElse(HOW_DEFAULT) match {
-      case "any" => "any"
-      case "all" => "all"
-      case _ => sendError("Incorrect value of 'how' keyword")
-    }
+    log.info(s"subset: ${subset.mkString("Array(", ", ", ")")}")
+
+    val how: String =
+      getKeyword("how").getOrElse(HOW_DEFAULT) match {
+        case "any" => "any"
+        case "all" => "all"
+        case _ => sendError("Incorrect value of 'how' keyword")
+      }
+
+    log.info(s"how: $how")
 
     _df.na.drop(how, subset)
   }

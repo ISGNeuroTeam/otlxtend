@@ -19,22 +19,34 @@ import ot.dispatcher.sdk.core.extensions.StringExt._
  * @param utils - plugin utils
  */
 class OTLUnpivot(query: SimpleQuery, utils: PluginUtils) extends PluginCommand(query, utils) {
+  val fieldsInQuery: List[String] =
+    returns
+      .flatFields
+      .map(_.stripBackticks)
+
+  log.info(s"fieldsInQuery: $fieldsInQuery")
+
   override def transform(_df: DataFrame): DataFrame = {
-    val fieldsInQuery = returns.flatFields.map(_.stripBackticks)
-    val actualCols = _df.columns.filterNot(fieldsInQuery.contains)
+    val actualCols: Array[String] =
+      _df
+        .columns
+        .filterNot(fieldsInQuery.contains)
+
+    log.info(s"actualCols: ${actualCols.mkString("Array(", ", ", ")")}")
+
     fieldsInQuery.reverse match {
       case value :: group :: fixed =>
-        actualCols.foldLeft(_df) {
-          (accum, colname) => {
-            accum.withColumn(colname, expr(s"""array("${colname}", ${colname})"""))
+        actualCols
+          .foldLeft(_df) { (accum, colname) =>
+            accum.withColumn(colname, expr(s"""array("$colname", $colname)"""))
           }
-        }
           .withColumn("arr", expr(s"""array(${actualCols.mkString(", ")})"""))
           .select("arr", fixed: _*)
           .withColumn("arr", explode(col("arr")))
           .withColumn(group.strip("\"").stripBackticks, col("arr").getItem(0))
           .withColumn(value.strip("\"").stripBackticks, col("arr").getItem(1))
           .drop("arr")
+
       case _ => _df
     }
   }
