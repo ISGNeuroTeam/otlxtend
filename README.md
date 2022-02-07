@@ -2,21 +2,6 @@
 
 Additional OTL commands for transforming dataframe in **Dispatcher App**.
 
-## Command List
-
-### assert
-### coalesce
-### dropna
-### latest
-### latestrow | lastrow
-### pivot
-### repartition
-### split
-### superjoin
-### unpivot
-### REM | ___
-### cc | conncomp
-
 For additional information about commands see OTLXTEND_COMMANDS.md
 
 ## Dependencies
@@ -25,6 +10,7 @@ For additional information about commands see OTLXTEND_COMMANDS.md
 - sbt 1.5.8
 - scala 2.11.12
 - eclipse temurin 1.8.0_312 (formerly known as AdoptOpenJDK)
+
 ## Deployment
 
 1. make pack or make build.
