@@ -1,4 +1,8 @@
-## [0.4.6]
+## [0.5.1]
+### Changed
+- Removed Repartition command due to duplication with the otfs plugin.
+
+## [0.5.0]
 ### Fixed
 - Project name.
 
