@@ -1,6 +1,10 @@
 # Changelog
 
-## [0.4.6 - 2022.02.07]
+## [0.5.1 - 2022.02.10]
+### Changed
+- Removed Repartition command due to duplication with the otfs plugin.
+
+## [0.5.0 - 2022.02.07]
 ### Fixed
 - Project name.
 
