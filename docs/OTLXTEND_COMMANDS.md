@@ -136,18 +136,6 @@ Result dataset:
 +----+----+---+---+---+
 ```
 
-### repartition
-Returns a new Dataset that has exactly '__partitions_number__' partitions.
-num - must be positive integer.
-#### Syntax
-```
-| repartition num=__partitions_number__
-```
-#### Example
-```
-| repartition num=8
-```
-
 ### split
 Splits '__column_to_split__' into '__splitted_columns__' by '__separator__'
 sep - separator character. Default value - #.
