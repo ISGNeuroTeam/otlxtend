@@ -2,12 +2,12 @@ name := "otlxtend"
 
 version := "0.5.1"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.10"
 
 resolvers += Resolver.jcenterRepo
 
-libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.11" % "1.2.0"  % Compile
-libraryDependencies += "org.apache.spark" %% "spark-graphx" % "2.4.3" % Compile
+libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.12" % "2.0.0"  % Compile
+libraryDependencies += "org.apache.spark" %% "spark-graphx" % "3.1.2" % Compile
 
 credentials += Credentials(
   "Sonatype Nexus Repository Manager",
