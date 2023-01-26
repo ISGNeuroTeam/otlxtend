@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.2] 2023-01-26
+### Fixed
+- no time to explain
+
 ## [0.5.1 - 2022.02.10]
 ### Changed
 - Removed Repartition command due to duplication with the otfs plugin.
