@@ -6,7 +6,7 @@ scalaVersion := "2.11.12"
 
 resolvers += Resolver.jcenterRepo
 
-libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.11" % "1.2.0"  % Compile
+libraryDependencies += "ot.dispatcher" % "dispatcher-sdk_2.11" % "1.2.2"  % Compile
 libraryDependencies += "org.apache.spark" %% "spark-graphx" % "2.4.3" % Compile
 
 credentials += Credentials(
