@@ -1,3 +1,7 @@
+## [0.6.0] 2023-05-15
+### Added
+- command `pitjoin` for point-in-time join (=asof merge)
+
 ## [0.5.2] 2023-01-26
 ### Fixed
 - no time to explain
